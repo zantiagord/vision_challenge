@@ -4,24 +4,9 @@ This section explains how to import the `home_price_model` and use it to predict
 
 ## Requirements
 
-Ensure you have `scikit-learn` installed in your environment, as the model uses `scikit-learn` for loading and prediction.
 
 ```bash
-pip install scikit-learn
-```
-
-## Importing the Model
-
-First, import the necessary modules and load the models:
-
-```python
-import joblib
-
-# Load the model
-model_path = 'path_to_your_saved_model/home_price_model.pkl'
-home_price_model = joblib.load(model_path)
-scaler = joblib.load('scaler.pkl')
-
+pip install -r requirements.txt 
 ```
 
 ## Making Predictions 
@@ -64,24 +49,12 @@ input_data = {
     ]
  }
 
-
-df_input = pd.DataFrame(data_example)
-df_input['ElementarySchoolName'] = df_input['ElementarySchoolName'].astype('category').cat.codes
-df_input[['CDOM', 'LotSizeAreaSQFT', 'SqFtTotal']] = scaler.fit_transform(df_input[['CDOM', 'LotSizeAreaSQFT', 'SqFtTotal']])
-predictions = home_price_model.predict(df_input)
-# do an inverse np.log transformation to get the real values
-predictions = pd.Series(predictions).apply(lambda x: np.exp(x))
-# show the predictions
-print(predictions)
 ```
-
 ## Explanation
 
+Overall, this code demonstrates how to load a trained machine learning model and scaler, preprocess input data for prediction, and make predictions on new data using the trained model.
 
-In this example, we first load the home_price_model using joblib.load(). We then create a DataFrame input_df with our input features total baths, total beds, cumulative days on market (CDOM), lot size area in square feet, total square footage of the home, and the name of the elementary school. Before making predictions, we scale the numerical features using the scaler loaded from scaler.pkl. This ensures that the input data is on the same scale as the data used to train the model. After scaling, we use the .predict() method on our model with input_df as the argument to predict the home price. The output is a prediction of the home price based on the given features.
 
-Remember to replace 'path_to_your_saved_model/home_price_model.pkl' with the actual path to your saved model file and provide information about where the scaler model was saved.
-
-## example
+## Example
 
 an example about how to use it is provided in predict_example.py.
